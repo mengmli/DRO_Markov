@@ -14,11 +14,11 @@ function cost=FW_main(x_cur,epsilon,r,iter,q_all,alpha_all)
         q=q_all(:,:,i); %transition kernel
         alpha0=alpha_all(:,i); % stationary distribution
 
-        nu=sample(alpha0,r,q,m);
-        nu_best=zeros(m); % best worst-case transition kernel
+        nu=sample(alpha0,r,q,d);
+        nu_best=zeros(d); % best worst-case transition kernel
 
         for t=1:iter % iterate within the specified iteration number
-            c = -Grad_Psi(doterm,m, nu); %define cost vector  
+            c = -Grad_Psi(x,nu); %define cost vector  
     stt=linear_sub(alpha0,r,c,m,q); %subproblem, determining descent direction
     if isnan(stt)
         break
