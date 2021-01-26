@@ -2,12 +2,13 @@ function val = sample(alpha0,r,q,d)
     % alpha0=alpha0(:,:,1);
     % d=4;
     % q=q(:,:,1);
-    N_samples = 10^7;
+    N_samples = 10^5;
     for n=1:N_samples
         fprintf('sample order %d',n);
         % randomly sample pif r>=10^(-4)
-        p=max(q+0.02*rand(d),10^(-10))
+        p=max(q+0.1*r*rand(d),10^(-5)*ones(d));
         p = p./sum(p,2);
+        disp(p-q)
         Dc = 0;
         for i=1:d
             sum0=0;

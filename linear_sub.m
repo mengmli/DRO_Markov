@@ -6,6 +6,8 @@ function s = linear_sub(alpha0,r,c,m,q)
     else
         eta_0=cbar+10^(-1);
     end
+    c_copy=c;
+    c=reshape(c_copy,[m,m]);
     su = @(eta_dual) alpha0'*(sum(q.*(log(repmat( eta_dual, [1,m] )-c)-log(repmat( alpha0, [1,m] ))),2));
 
     lambda =@(eta_dual) exp(su(eta_dual)-r); %compute lambda

@@ -52,7 +52,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-2,0,7); %range r
+r_range=logspace(-1,0,5); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);
@@ -64,6 +64,9 @@ reliability_iid=zeros(1,N_r);
 iid_perf=zeros(1,N_r);
 iid_perf_lower=zeros(1,N_r);
 iid_perf_upper=zeros(1,N_r);
+
+% assuming perfect information:
+[true_x,alpha_real,cost_real] = test_real(prime,d,m,p_i,q_i,P,B,w);
 
 for i=1:N_r % for each prescribed radius
     r=r_range(i);
@@ -83,13 +86,13 @@ for i=1:N_r % for each prescribed radius
             x_cur=x_feasible(row,:)'; %fix one decision
             
             % apply FW algorithm to get the corresponding prediction
-            cost_fin1 = w*FW_main(x_cur,epsilon,r,iter,q,alpha0); %return the best minimax prediction given a decision x_cur
+            cost_fin1 = w*FW_main(k,x_cur,epsilon,r,iter,q,alpha0); %return the best minimax prediction given a decision x_cur
             if cost_fin1<cost_fin(n) %compare if it is the best decision so far
                 cost_fin(n)=cost_fin1;
                 x=x_cur;
             end
         end
-        elapesed_time=toc
+        elapsed_time=toc
         % return and store optimal decision and optimal value
         cost_out(n) = -x'*alpha_real*w'; % negative profit in the real situation
         if cost_out(n)>cost_fin(n)

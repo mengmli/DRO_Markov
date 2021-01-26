@@ -1,8 +1,9 @@
-function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
+function cost=FW_main(x_cur,epsilon,r,iter,q_all,alpha_all)
     %returns the cost vector k*1, each row represents 
     %the unnormalized cost value for the respective customer group
 
     %parameters
+    k=length(x_cur); % number of customer groups
     d=length(q_all); % number of available brands
 
     % initialize cost
@@ -18,7 +19,7 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
 
         for t=1:iter % iterate within the specified iteration number
             c = grad_psi(x_cur,nu); %define cost vector: notice that c is the negative gradient of the psi function  
-            stt=linear_sub(alpha0,r,c,d,q); %subproblem, determining argmax for descent direction
+            stt=linear_sub(alpha0,r,c,k,q); %subproblem, determining argmax for descent direction
         if isnan(stt)
             break
         end
@@ -53,16 +54,15 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
                 break
         end
     end
-    if nu_best==zeros(d)
+    if nu_best==zeros(k)
     nu_best=nu;
     end
 
     nu_best_mat=nu_best./sum(nu_best,2);
 
 
-    mc=dtmc(nu_best_mat);
-    pi_approx=asymptotics(mc);
-    approx_cost=dot(x_cur,pi_approx);
+    mc=dtmc(nu_best_mat
+    approx_cost=dot(doterm,pi_approx);
     cost(k)=approx_cost;
     % disp(approx_cost);
 end
