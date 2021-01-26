@@ -17,8 +17,11 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
         nu_best=zeros(d); % best worst-case transition kernel
 
         for t=1:iter % iterate within the specified iteration number
-            c = grad_psi(x_cur,nu); %define cost vector: notice that c is the negative gradient of the psi function  
-            stt=linear_sub(alpha0,r,c,d,q); %subproblem, determining argmax for descent direction
+            c = -grad_psi(x_cur,nu); %define cost vector: notice that c is the gradient of the psi function  
+            
+            c_copy=c;
+    c=reshape(c_copy,[d,d]);
+    stt=linear_sub(alpha0,r,c,d,q); %subproblem, determining argmax for descent direction
         if isnan(stt)
             break
         end
@@ -32,14 +35,14 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
         
         buf_lin_search=-10^9;
         gammat=-1;
-        for gammax = 0:0.001:1
+        for gammax = 0:0.01:1
             nu_mat=nu+gammax*dir;
             if sum(isinf(nu_mat(:)))>=1 || sum(isnan(nu_mat(:)))>=1
             udx=udx+1; break
             end
             nu_mat=nu_mat./sum(nu_mat,2);
             
-            f_lin_search = Psi(doterm,m, nu_mat);
+            f_lin_search = Psi(x_cur, nu_mat);
             if f_lin_search > buf_lin_search
                 gammat = gammax;
                 buf_lin_search = f_lin_search;
@@ -59,10 +62,7 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
 
     nu_best_mat=nu_best./sum(nu_best,2);
 
-
-    mc=dtmc(nu_best_mat);
-    pi_approx=asymptotics(mc);
-    approx_cost=dot(x_cur,pi_approx);
+    approx_cost=Psi(x_cur,nu_best_mat);
     cost(k)=approx_cost;
     % disp(approx_cost);
 end

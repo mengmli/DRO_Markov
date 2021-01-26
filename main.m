@@ -42,8 +42,8 @@ for n=1:n_exper
    xi(:,:,n)=(reshape(matObj.xi(n,:),[T,k])).';
 end
 
-epsilon=0.0001; % error tolerance for FW gap
-iter=50; % maximum iteration for FW alg
+epsilon=0.01; % error tolerance for FW gap
+iter=10; % maximum iteration for FW alg
 
 cost_fin=zeros(1,n_exper); 
 cost_out=zeros(1,n_exper); 
@@ -52,7 +52,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-1.4,0,5); %range r
+r_range=logspace(-4,0,5); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);

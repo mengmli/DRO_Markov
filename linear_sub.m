@@ -1,13 +1,14 @@
 function s = linear_sub(alpha0,r,c,m,q)
-    %outputs arg min <S, c> where c is the negative gradient
+    %outputs arg max <S, c> where c is the gradient
+    % solved using duality
+
     cbar=max(c,[],2); 
     if r<0.1
     eta_0=cbar+10^(-8);
     else
         eta_0=cbar+10^(-1);
     end
-    c_copy=c;
-    c=reshape(c_copy,[m,m]);
+
     su = @(eta_dual) alpha0'*(sum(q.*(log(repmat( eta_dual, [1,m] )-c)-log(repmat( alpha0, [1,m] ))),2));
 
     lambda =@(eta_dual) exp(su(eta_dual)-r); %compute lambda
@@ -29,12 +30,12 @@ function s = linear_sub(alpha0,r,c,m,q)
     % disp('initial value for f');    
     % disp(f(eta_0));
     opts = optimoptions('fmincon','Display','off');
-    options = optimoptions(opts,'MaxFunctionEvaluations', 5000);
-    options = optimoptions(options,'MaxIterations', 5000);
-    options = optimoptions(options,'OptimalityTolerance', 0.00001);
-    options = optimoptions(options,'FunctionTolerance', 0.00001);
-    options = optimoptions(options,'StepTolerance', 0.00001);
-    eta_star = fmincon(f,eta_0,[],[],[],[],cbar,[],[],opts);
+    options = optimoptions(opts,'MaxFunctionEvaluations', 1000);
+    options = optimoptions(options,'MaxIterations', 1000);
+    options = optimoptions(options,'OptimalityTolerance', 10^(-4));
+    options = optimoptions(options,'FunctionTolerance', 10^(-4));
+    options = optimoptions(options,'StepTolerance', 10^(-4));
+    eta_star = fmincon(f,eta_0,[],[],[],[],cbar,[],[],options);
     
     % disp(eta_star-cbar);
     if (eta_star-cbar>=ones(size(eta_0)))
