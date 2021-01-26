@@ -52,7 +52,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-4,0,7); %range r
+r_range=logspace(-2,0,7); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);
@@ -67,11 +67,18 @@ iid_perf_upper=zeros(1,N_r);
 
 for i=1:N_r % for each prescribed radius
     r=r_range(i);
+    fprintf('order r %d ',i);
+%     disp(r);
+    n_disappt=0;
     for n=1:n_exper % run n_exper independent experiments
+        fprintf('exp order %d ',n);
+        prog=(n_exper*(i-1)+n)/(n_exper*length(r_range));
+        fprintf('progress %0.2f\n', prog)
         % estimate stationary distribution
-        [alpha0,q]=estimate_alpha(k,d,T,xi(:,:,n));
+        [alpha0,q]=est_alpha_from_xi(k,d,T,xi(:,:,n));
         % iterate over strategy set
         cost_fin(n)=10^6; % default value for the predicted cost (negative profit)
+        tic
         for row=1:length(x_feasible(:,1))
             x_cur=x_feasible(row,:)'; %fix one decision
             
@@ -82,6 +89,7 @@ for i=1:N_r % for each prescribed radius
                 x=x_cur;
             end
         end
+        elapesed_time=toc
         % return and store optimal decision and optimal value
         cost_out(n) = -x'*alpha_real*w'; % negative profit in the real situation
         if cost_out(n)>cost_fin(n)
