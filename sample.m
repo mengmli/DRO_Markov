@@ -6,9 +6,8 @@ function val = sample(alpha0,r,q,d)
     for n=1:N_samples
         fprintf('sample order %d',n);
         % randomly sample pif r>=10^(-4)
-        p=max(q+0.1*r*rand(d),10^(-5)*ones(d));
+        p=max(q+0.1*r*rand(d),10^(-7));
         p = p./sum(p,2);
-        disp(p-q)
         Dc = 0;
         for i=1:d
             sum0=0;

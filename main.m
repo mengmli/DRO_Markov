@@ -20,8 +20,8 @@ d=12; % how many brands
 T=30; % length of each xi^(i)/ sample size
 n_exper = 10; % number of independent experiments
 
-P =  .5*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
-B = 5*rand(k,1);
+P =  .15*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
+B = 15*rand(k,1);
 w=rand(1,k); % weight of each customer segment
 w=w./sum(w);
 
@@ -52,7 +52,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-1,0,5); %range r
+r_range=logspace(-4,0,5); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);
