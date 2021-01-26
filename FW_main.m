@@ -18,11 +18,11 @@ function cost=FW_main(x_cur,epsilon,r,iter,q_all,alpha_all)
         nu_best=zeros(d); % best worst-case transition kernel
 
         for t=1:iter % iterate within the specified iteration number
-            c = -Grad_Psi(x,nu); %define cost vector  
-    stt=linear_sub(alpha0,r,c,m,q); %subproblem, determining descent direction
-    if isnan(stt)
-        break
-    end
+            c = grad_psi(x,nu); %define cost vector: notice that c is the negative gradient of the psi function  
+            stt=linear_sub(alpha0,r,c,k,q); %subproblem, determining argmax for descent direction
+        if isnan(stt)
+            break
+        end
     dir=stt-nu;
     g(t)=trace(dir*c);
     
