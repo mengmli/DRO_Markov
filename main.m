@@ -21,7 +21,7 @@ T=30; % length of each xi^(i)/ sample size
 n_exper = 10; % number of independent experiments
 
 P =  .15*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
-B = 15*rand(k,1);
+B = 10*rand(k,1);
 w=rand(1,k); % weight of each customer segment
 w=w./sum(w);
 
@@ -86,7 +86,7 @@ for i=1:N_r % for each prescribed radius
         tic
         for row=1:length(x_feasible(:,1))
             x_cur=x_feasible(row,:)'; %fix one decision
-            
+            fprintf('%dth feasible prescriptor\n',row);
             % apply FW algorithm to get the corresponding prediction
             cost_fin1 = w*FW_main(k,x_cur,epsilon,r,iter,q,alpha0); %return the best minimax prediction given a decision x_cur
             if cost_fin1<cost_fin(n) %compare if it is the best decision so far
