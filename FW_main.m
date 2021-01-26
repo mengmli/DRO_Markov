@@ -7,7 +7,9 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
 
     % initialize cost
     cost=zeros(k,1); %negative profit
-
+    if r<=10^(-4)
+        iter=iter*10;
+    end
     for i=1:k
         % fprintf('%dth chain',i);
         %specify the dynamics of ith markov chain
