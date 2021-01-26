@@ -7,6 +7,8 @@
 %     II. FW step
 %         return the predictors given a prescriptor value
 %     III. Plot
+clear all
+close all
 rng(1);
 dbstop if error
 warning('off');
@@ -18,8 +20,8 @@ d=12; % how many brands
 T=30; % length of each xi^(i)/ sample size
 n_exper = 10; % number of independent experiments
 
-P =  .5*rand(d,k); %pricing information for each brand and price sensitivity of each respective customer group
-B = 5*rand(d,1);
+P =  .5*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
+B = 5*rand(k,1);
 w=rand(1,k); % weight of each customer segment
 w=w./sum(w);
 
