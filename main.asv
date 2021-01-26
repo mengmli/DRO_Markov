@@ -66,9 +66,9 @@ iid_perf_lower=zeros(1,N_r);
 iid_perf_upper=zeros(1,N_r);
 
 % assuming perfect information:
-obj_tran_kernel = matfile('transition_dynamics.mat','Writable',true);
-p_real=obj_tran_kernel.P;
-[true_x,alpha_real,cost_real] = test_real(d,k,p_real,P,B,w);
+obj_tran_kernel = matfile('xi_new.mat','Writable',true);
+p_real=
+[true_x,alpha_real,cost_real] = test_real(prime,d,m,p_real,P,B,w);
 
 for i=1:N_r % for each prescribed radius
     r=r_range(i);
