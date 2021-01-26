@@ -13,7 +13,7 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
         q=q_all(:,:,i); %transition kernel
         alpha0=alpha_all(:,i); % stationary distribution
 
-        nu=sample(alpha0,r,q,d);
+        nu=q;
         nu_best=zeros(d); % best worst-case transition kernel
 
         for t=1:iter % iterate within the specified iteration number
