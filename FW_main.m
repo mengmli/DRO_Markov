@@ -21,7 +21,7 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
 
         for t=1:iter % iterate within the specified iteration number
             % fprintf('%dth iter',t);
-            c = -grad_psi(x_cur,nu); %define cost vector: notice that c is the gradient of the psi function  
+            c = grad_psi(x_cur,nu); %define cost vector: notice that c is the gradient of the psi function  
             c_copy=c;
             c=reshape(c_copy,[d,d]);
             stt=linear_sub(alpha0,r,c,d,q); %subproblem, determining argmax for descent direction
@@ -30,14 +30,32 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
             end
 
             dir=stt-nu;
-            g=-trace(dir*c);
+            g=trace(dir*c);
         
             if g<epsilon
-                %disp(g);
+                disp(g);
                 nu_best=nu; %disp(nu_best);
                 break
             end
-        
+            buf_lin_search=-10^9;
+            gammat=-1;
+            for gammax = 0:0.1:1
+                nu_mat=nu+gammax*dir;
+                nu_mat=nu_mat./sum(nu_mat,2);
+                
+                f_lin_search = Psi(x_cur,m, nu_mat);
+                if f_lin_search > buf_lin_search
+                    gammat = gammax;
+                    buf_lin_search = f_lin_search;
+                end
+            end
+            if gammat==-2
+                break
+            end
+            nu=nu+gammat*dir;
+            if sum(isinf(nu(:)))>=1 || sum(isnan(nu(:)))>=1
+                    break
+            end
             gamma_t=min(r*g/10^2,1);
             nu=nu+gamma_t*dir;
             if sum(isinf(nu(:)))>=1 || sum(isnan(nu(:)))>=1
