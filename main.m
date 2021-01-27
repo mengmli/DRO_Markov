@@ -108,5 +108,5 @@ for i=1:N_r % for each prescribed radius
     markov_perf(i)=mean(cost_out);
     markov_perf_lower(i)=markov_perf(i)-2*std(cost_out);
     markov_perf_upper(i)=markov_perf(i)+2*std(cost_out); % 90% confidence bound
-iid_plot
 end
+iid_plot
