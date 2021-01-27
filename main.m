@@ -18,7 +18,7 @@ warning('off');
 k=7; % how many customer segements: i.e., how many different markov chain dynamics
 d=11; % how many brands
 T=300; % length of each xi^(i)/ sample size
-n_exper = 20; % number of independent experiments
+n_exper = 10; % number of independent experiments
 
 P =  .35*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
 B = 2*rand(k,1);
