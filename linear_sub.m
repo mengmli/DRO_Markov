@@ -3,11 +3,7 @@ function s = linear_sub(alpha0,r,c,m,q)
     % solved using duality
 
     cbar=max(c,[],2); 
-    if r<0.1
-    eta_0=cbar+10^(-8);
-    else
-        eta_0=cbar+10^(-1);
-    end
+    eta_0=cbar+10^(-1);
 
     su = @(eta_dual) alpha0'*(sum(q.*(log(repmat( eta_dual, [1,m] )-c)-log(repmat( alpha0, [1,m] ))),2));
 
@@ -56,7 +52,7 @@ function s = linear_sub(alpha0,r,c,m,q)
             if alpha0(i)~=0
             s(i,j)=lambda_star*alpha0(i)*q(i,j)/(eta_star(i)-c(i,j));
             if isnan(s(i,j))
-                s(i,j)=2*10^(-1);
+                s(i,j)=10^(-2);
             % error('optimizer nan');
             end
             end

@@ -43,7 +43,7 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
                 nu_mat=nu+gammax*dir;
                 nu_mat=nu_mat./sum(nu_mat,2);
                 
-                f_lin_search = Psi(x_cur,m, nu_mat);
+                f_lin_search = Psi(x_cur, nu_mat);
                 if f_lin_search > buf_lin_search
                     gammat = gammax;
                     buf_lin_search = f_lin_search;
