@@ -15,13 +15,13 @@ warning('off');
 
 % parameter setting
 
-k=10; % how many customer segements: i.e., how many different markov chain dynamics
-d=12; % how many brands
-T=30; % length of each xi^(i)/ sample size
-n_exper = 10; % number of independent experiments
+k=7; % how many customer segements: i.e., how many different markov chain dynamics
+d=11; % how many brands
+T=300; % length of each xi^(i)/ sample size
+n_exper = 20; % number of independent experiments
 
-P =  .15*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
-B = 10*rand(k,1);
+P =  .35*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
+B = 2*rand(k,1);
 w=rand(1,k); % weight of each customer segment
 w=w./sum(w);
 
@@ -43,7 +43,7 @@ for n=1:n_exper
 end
 
 epsilon=0.01; % error tolerance for FW gap
-iter=10; % maximum iteration for FW alg
+iter=20; % maximum iteration for FW alg
 
 cost_fin=zeros(1,n_exper); 
 cost_out=zeros(1,n_exper); 
@@ -52,7 +52,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-4,0,5); %range r
+r_range=logspace(-4,1,6); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);

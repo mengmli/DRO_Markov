@@ -5,8 +5,8 @@ for i=1:N_r % for each prescribed radius
 %     disp(r);
     n_disappt=0;
     for n=1:n_exper % run n_exper independent experiments
-    alpha0=naive_est_alpha(k,d,T,xi(:,:,nsample));
-    cost_fin_iid(nsample)=10^6;
+    alpha0=naive_est_alpha(k,d,T,xi(:,:,n));
+    cost_fin_iid(n)=10^6;
     for row=1:length(xrange(:,1))
         xrow=xrange(row,:)';
         if P*xrow<=B
@@ -14,17 +14,17 @@ for i=1:N_r % for each prescribed radius
         else 
             cost_fin1 = 10^6;
         end
-        if cost_fin1<cost_fin_iid(nsample)
-            cost_fin_iid(nsample) =cost_fin1;
+        if cost_fin1<cost_fin_iid(n)
+            cost_fin_iid(n) =cost_fin1;
             x=xrow;
         end
     end
-    cost_out_iid(nsample) = -(prime'.*x)'*alpha_real*w';
-    if cost_out_iid(nsample)>cost_fin_iid(nsample)
+    cost_out_iid(n) = -x'*alpha_real*w';
+    if cost_out_iid(n)>cost_fin_iid(n)
         n_disappt=n_disappt+1;
     end
 end
-reliability_iid(i)=1-n_disappt/N_sample;
+reliability_iid(i)=1-n_disappt/n_exper;
 
 iid_perf(i)=mean(cost_out_iid); 
 iid_perf_lower(i)=iid_perf(i)-2*std(cost_out_iid);

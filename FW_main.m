@@ -7,9 +7,9 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
 
     % initialize cost
     cost=zeros(k,1); %negative profit
-    if r<=10^(-4)
-        iter=iter*10;
-    end
+    % if r<=10^(-4)
+    %     iter=iter*10;
+    % end
     for i=1:k
         % fprintf('%dth chain',i);
         %specify the dynamics of ith markov chain
@@ -30,14 +30,15 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
             end
 
             dir=stt-nu;
-            g=trace(dir*c);
+            g=-trace(dir*c);
         
             if g<epsilon
+                %disp(g);
                 nu_best=nu; %disp(nu_best);
                 break
             end
         
-            gamma_t=min(g/10^2,1);
+            gamma_t=min(r*g/10^2,1);
             nu=nu+gamma_t*dir;
             if sum(isinf(nu(:)))>=1 || sum(isnan(nu(:)))>=1
                break
