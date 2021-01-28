@@ -18,7 +18,7 @@ warning('off');
 k=7; % how many customer segements: i.e., how many different markov chain dynamics
 d=10; % how many brands
 T=30; % length of each xi^(i)/ sample size
-n_exper = 5; % number of independent experiments
+n_exper = 2; % number of independent experiments
 
 P =  rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
 B = 20*rand(k,1);
@@ -87,8 +87,8 @@ for i=1:N_r % for each prescribed radius
             x_cur=x_feasible(row,:)'; %fix one decision
             fprintf('feasible x prog %0.2f  ',row/length(x_feasible(:,1)));
             % apply FW algorithm to get the corresponding prediction
-            iter=min(10,1/r); % maximum iteration for FW alg
-            epsilon=min(0.01,r); % error tolerance for FW gap
+            iter=min(1000,1/r); % maximum iteration for FW alg
+            epsilon=min(0.001,r); % error tolerance for FW gap
             cost_fin1 = w*FW_main(k,x_cur,epsilon,r,iter,q,alpha0); %return the best minimax prediction given a decision x_cur
             if cost_fin1<cost_fin(n) %compare if it is the best decision so far
                 cost_fin(n)=cost_fin1;

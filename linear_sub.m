@@ -2,8 +2,8 @@ function s = linear_sub(alpha0,r,c,m,q)
     %outputs arg max <S, c> where c is the gradient
     % solved using duality
 
-    cbar=max(c,[],2); 
-    eta_0=cbar+5*10^(-1);
+    cbar=max(c',[],2); 
+    eta_0=cbar+10^(-1);
 
     su = @(eta_dual) alpha0'*(sum(q.*(log(repmat( eta_dual, [1,m] )-c)-log(repmat( alpha0, [1,m] ))),2));
 
@@ -26,8 +26,8 @@ function s = linear_sub(alpha0,r,c,m,q)
     % disp('initial value for f');    
     % disp(f(eta_0));
     opts = optimoptions('fmincon','Display','off');
-    options = optimoptions(opts,'MaxFunctionEvaluations', 1000);
-    options = optimoptions(options,'MaxIterations', 1000);
+    options = optimoptions(opts,'MaxFunctionEvaluations', max(1000,10^5*r));
+    options = optimoptions(options,'MaxIterations',  max(1000,10^5*r));
     options = optimoptions(options,'OptimalityTolerance', 10^(-4));
     options = optimoptions(options,'FunctionTolerance', 10^(-4));
     options = optimoptions(options,'StepTolerance', 10^(-4));
