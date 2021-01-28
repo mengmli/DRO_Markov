@@ -15,7 +15,6 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
         %specify the dynamics of ith markov chain
         q=q_all(:,:,i); %transition kernel
         alpha0=alpha_all(:,i); % stationary distribution
-
         nu=q;
         nu_best=zeros(d); % best worst-case transition kernel
 
@@ -42,7 +41,6 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
             for gammax = 0:0.04:1
                 nu_mat=nu+gammax*dir;
                 nu_mat=nu_mat./sum(nu_mat,2);
-                
                 f_lin_search = Psi(x_cur, nu_mat);
                 if f_lin_search > buf_lin_search
                     gammat = gammax;
