@@ -3,12 +3,13 @@ rng(1);
 
 k=7; % how many customer segements: i.e., how many different markov chain dynamics
 d=11; % how many brands
-T=3000; % length of each xi^(i)/ sample size
+T=30; % length of each xi^(i)/ sample size
 n_exper = 10; % number of independent experiments
 
 P=rand(d,d,k); % k  transition matrix, each of dimension d*d
 for i=1:k
-    P(randi([1,d]),3,i)=1;%randi([1,d])
+    P(randi([1,d]),randi([1,d]),i)=5;%randi([1,d])
+    P(randi([1,d]),randi([1,d]),i)=4;
     P(:,:,i)=P(:,:,i)./sum(P(:,:,i),2); %normalize to standard row-stochastic matrix
     mc=dtmc(P(:,:,i));
     while (isergodic(mc)==0) && (isreducible(mc)==1) % keep rolling the dice until getting an ergodic and irreducible chain dynamics

@@ -16,21 +16,12 @@ warning('off');
 % parameter setting
 
 k=7; % how many customer segements: i.e., how many different markov chain dynamics
-<<<<<<< Updated upstream
-d=11; % how many brands
-T=3000; % length of each xi^(i)/ sample size
-n_exper = 10; % number of independent experiments
-
-P =  .35*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
-B = 2*rand(k,1);
-=======
 d=10; % how many brands
-T=100; % length of each xi^(i)/ sample size
+T=30; % length of each xi^(i)/ sample size
 n_exper = 5; % number of independent experiments
 
 P =  rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
 B = 100*rand(k,1);
->>>>>>> Stashed changes
 w=rand(1,k); % weight of each customer segment
 w=w./sum(w);
 
@@ -60,7 +51,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-3,1.5,5); %range r
+r_range=logspace(-4,1.5,5); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);
@@ -96,13 +87,8 @@ for i=1:N_r % for each prescribed radius
             x_cur=x_feasible(row,:)'; %fix one decision
             fprintf('feasible x prog %0.2f  ',row/length(x_feasible(:,1)));
             % apply FW algorithm to get the corresponding prediction
-<<<<<<< Updated upstream
-            iter=5/r; % maximum iteration for FW alg
-            epsilon=r; % error tolerance for FW gap
-=======
             iter=min(10,1/r); % maximum iteration for FW alg
             epsilon=min(0.01,r); % error tolerance for FW gap
->>>>>>> Stashed changes
             cost_fin1 = w*FW_main(k,x_cur,epsilon,r,iter,q,alpha0); %return the best minimax prediction given a decision x_cur
             if cost_fin1<cost_fin(n) %compare if it is the best decision so far
                 cost_fin(n)=cost_fin1;
