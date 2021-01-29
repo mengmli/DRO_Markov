@@ -18,10 +18,10 @@ warning('off');
 k=7; % how many customer segements: i.e., how many different markov chain dynamics
 d=10; % how many brands
 T=30; % length of each xi^(i)/ sample size
-n_exper = 2; % number of independent experiments
+n_exper = 1`; % number of independent experiments
 
 P =  rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
-B = 20*rand(k,1);
+B = 10*rand(k,1);
 w=rand(1,k); % weight of each customer segment
 w=w./sum(w);
 
@@ -51,7 +51,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-4,1.5,5); %range r
+r_range=logspace(-2.5,1.5,5); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);
@@ -85,7 +85,7 @@ for i=1:N_r % for each prescribed radius
         tic
         for row=1:length(x_feasible(:,1))
             x_cur=x_feasible(row,:)'; %fix one decision
-            fprintf('feasible x prog %0.2f  ',row/length(x_feasible(:,1)));
+            fprintf('feasible x prog %0.2f ',row/length(x_feasible(:,1)));
             % apply FW algorithm to get the corresponding prediction
             iter=min(1000,1/r); % maximum iteration for FW alg
             epsilon=min(0.001,r); % error tolerance for FW gap
@@ -110,4 +110,4 @@ for i=1:N_r % for each prescribed radius
     markov_perf_upper(i)=markov_perf(i)+2*std(cost_out); % 90% confidence bound
 end
 iid_plot
-save('simul3.mat')
+save('simul4.mat')
