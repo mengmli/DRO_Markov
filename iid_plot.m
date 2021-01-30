@@ -5,11 +5,11 @@ for i=1:N_r % for each prescribed radius
 %     disp(r);
     n_disappt=0;
     for n=1:n_exper % run n_exper independent experiments
-        alpha0=naive_est_alpha(k,d,T,xi(:,:,n));
+        q_T=naive_est_alpha(k,d,T,xi(:,:,n));
         cost_fin_iid(n)=10^6;
         for row=1:length(x_feasible(:,1))
             x_cur=x_feasible(row,:)'; %fix one decision
-            cost_fin1 = w*cost_noM(k,x_cur,alpha0,r,d);
+            cost_fin1 = w*cost_noM(k,x_cur,q_T,r,d);
             if cost_fin1<cost_fin_iid(n) %compare if it is the best decision so far
                 cost_fin_iid(n)=cost_fin1;
                 x=x_cur;

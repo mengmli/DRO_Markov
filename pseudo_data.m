@@ -3,7 +3,7 @@ rng(1);
 
 k=7; % how many customer segements: i.e., how many different markov chain dynamics
 d=10; % how many brands
-T=30; % length of each xi^(i)/ sample size
+T=5; % length of each xi^(i)/ sample size
 n_exper = 10; % number of independent experiments
 
 P=rand(d,d,k); % k  transition matrix, each of dimension d*d
@@ -24,9 +24,9 @@ end
 for n=1:n_exper
     % generating pseudo-data from predefined markov chain dynamics: Random Walk
 
-    xi = rand(k,T); % for each customer segment, generate a different trajectory with regard to its jumping dynamics
+    xi = ones(k,T); % for each customer segment, generate a different trajectory with regard to its jumping dynamics
     for i=1:k
-        X=simulate(dtmc(P(:,:,i)),T-1);
+        X=simulate(dtmc(P(:,:,i)),T);disp(X);
         xi(i,:)=X';
     end
     xi=reshape(xi.',1,[]); %flatten xi matrix

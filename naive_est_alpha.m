@@ -9,7 +9,7 @@ for j=1:d
             sum1=sum1+(xi(i,t)==j);
         end
         if sum1==0
-            q_T(i,j)=10^(-2);
+            q_T(i,j)=1/d^2;
         else
         q_T(i,j)=sum1/(T);
         end        

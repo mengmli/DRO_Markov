@@ -32,7 +32,7 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
             g=trace(dir*c);
         
             if g<epsilon
-                fprintf('%d gap',g);
+                % fprintf('%d gap',g);
                 nu_best=nu; %disp(nu_best);
                 break
             end
@@ -54,21 +54,18 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
             if sum(isinf(nu(:)))>=1 || sum(isnan(nu(:)))>=1
                     break
             end
-            gamma_t=min(r*g/10^2,1);
-            nu=nu+gamma_t*dir;
-            if sum(isinf(nu(:)))>=1 || sum(isnan(nu(:)))>=1
-               break
-            end
         end
         
         if nu_best==zeros(d)
             nu_best=nu;
         end
 
-    nu_best_mat=nu_best./sum(nu_best,2);
+        nu_best_mat=nu_best./sum(nu_best,2);
 
-    approx_cost=Psi(x_cur,nu_best_mat);
-    cost(k)=approx_cost;
-    % disp(approx_cost);
+        approx_cost=Psi(x_cur,nu_best_mat);
+
+        % disp(nu_best_mat);
+        cost(i)=approx_cost;
+        % disp(approx_cost);
     end
 end

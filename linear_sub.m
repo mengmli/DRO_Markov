@@ -2,7 +2,7 @@ function s = linear_sub(alpha0,r,c,m,q)
     %outputs arg max <S, c> where c is the gradient
     % solved using duality
 
-    cbar=max(c',[],2); 
+    cbar=max(c,[],2); 
     eta_0=cbar+10;
 
     su = @(eta_dual) alpha0'*(sum(q.*(log(repmat( eta_dual, [1,m] )-c)-log(repmat( alpha0, [1,m] ))),2));
