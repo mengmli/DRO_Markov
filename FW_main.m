@@ -1,4 +1,4 @@
-function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
+function cost=FW_main(k,a,x_cur,epsilon,r,iter,q_all,alpha_all)
     %returns the cost vector k*1, each row represents 
     %the unnormalized cost value for the respective customer group
 
@@ -20,9 +20,10 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
 
         for t=1:iter % iterate within the specified iteration number
             % fprintf('%dth iter',t);
-            c = grad_psi(x_cur,nu); %define cost vector: notice that c is the gradient of the psi function  
+            c = grad_psi(a.*x_cur,nu); %define cost vector: notice that c is the gradient of the psi function  
             c_copy=c;
             c=reshape(c_copy,[d,d]);
+            % disp(c-c');
             stt=linear_sub(alpha0,r,c,d,q); %subproblem, determining argmax for descent direction
             if isnan(stt)
                 break
@@ -41,7 +42,7 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
             for gammax = 0:0.05:1
                 nu_mat=nu+gammax*dir;
                 nu_mat=nu_mat./sum(nu_mat,2);
-                f_lin_search = Psi(x_cur, nu_mat);
+                f_lin_search = Psi(a.*x_cur, nu_mat);
                 if f_lin_search > buf_lin_search
                     gammat = gammax;
                     buf_lin_search = f_lin_search;
@@ -62,7 +63,7 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
 
         nu_best_mat=nu_best./sum(nu_best,2);
 
-        approx_cost=Psi(x_cur,nu_best_mat);
+        approx_cost=Psi(a.*x_cur,nu_best_mat);
 
         % disp(nu_best_mat);
         cost(i)=approx_cost;

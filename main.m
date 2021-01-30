@@ -17,14 +17,15 @@ warning('off');
 
 k=7; % how many customer segements: i.e., how many different markov chain dynamics
 d=10; % how many brands
-T=5; % length of each xi^(i)/ sample size
-n_exper = 1; % number of independent experiments
+T=10; % length of each xi^(i)/ sample size
+n_exper = 3; % number of independent experiments
 
-P =  0.16*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
-B = 2*rand(k,1);
-w=randi([1 10],1,k); % weight of each customer segment
-% w=w./sum(w);
-
+P =  randi([8 25],5,d); %pricing information for each brand and mode of cost
+B = randi([70 100],5,1); % budget in each cost dimension
+w=rand(1,k); % weight of each customer segment
+w=w./sum(w);
+a=randi([30 90],d,1); %selling price of each brand
+a=a./sum(a);
 xrange=dec2bin(0:1:2^d-1)-'0'; % decision space
 % xrange=randi([0 5],300,d); % a more general discrete setting
 x_feasible=[];
@@ -52,7 +53,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-2,0,2); %range r
+r_range=logspace(-4,1,4); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);
@@ -68,7 +69,7 @@ iid_perf_upper=zeros(1,N_r);
 % assuming perfect information:
 obj_tran_kernel = matfile('transition_dynamics.mat','Writable',true);
 p_real=obj_tran_kernel.P;
-[true_x,alpha_real,cost_real] = test_real(d,k,p_real,P,B,w,x_feasible);
+[true_x,alpha_real,cost_real] = test_real(d,k,p_real,P,B,w,a,x_feasible);
 fprintf('true cost %d \n',cost_real);
 
 for i=1:N_r % for each prescribed radius
@@ -89,18 +90,19 @@ for i=1:N_r % for each prescribed radius
             x_cur=x_feasible(row,:)'; %fix one decision
             % apply FW algorithm to get the corresponding prediction
             iter=max(100,1/r); % maximum iteration for FW alg
-            epsilon=min(0.01,r); % error tolerance for FW gap
-            cost_fin1 = w*FW_main(k,x_cur,epsilon,r,iter,q,alpha0); %return the best minimax prediction given a decision x_cur
+            epsilon=min(0.001,r); % error tolerance for FW gap
+            cost_fin1 = w*FW_main(k,a,x_cur,epsilon,r,iter,q,alpha0); %return the best minimax prediction given a decision x_cur
             
             if cost_fin1<cost_fin(n) %compare if it is the best decision so far
-                cost_fin(n)=cost_fin1; disp('current min x');disp(x_cur');fprintf('prediction %d \n',cost_fin1);
+                cost_fin(n)=cost_fin1; 
+                % disp('current min x');disp(x_cur');fprintf('prediction %d \n',cost_fin1);
                 x=x_cur;
             end
         end
         elapsed_time=toc
         % return and store optimal decision and optimal value
-        disp('prescription');disp(x);
-        cost_out(n) = -x'*alpha_real*w'; % negative profit in the real situation
+        disp('prescription');disp(x');
+        cost_out(n) = -(a.*x)'*alpha_real*w'; % negative profit in the real situation
         if cost_out(n)>cost_fin(n)
             n_disappt=n_disappt+1;
         end

@@ -1,6 +1,6 @@
-function cost_val = cost_noM(k,x,alpha_all,r,d)
+function cost_val = cost_noM(a,k,x,alpha_all,r,d)
 cost_val=zeros(k,1);
-cost=-x;
+cost=-a.*x;
 for i=1:k
 alpha0=alpha_all(i,:);
 % disp(alpha0);
