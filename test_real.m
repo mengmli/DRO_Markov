@@ -1,4 +1,4 @@
-function [x_true,alpha_real, val] = test_real(d,k,p_real,P,B,w)
+function [x_true,alpha_real, val] = test_real(d,k,p_real,P,B,w,x_feasible)
 
     %calculating stationary distr.
     alpha_real=[];
@@ -8,8 +8,7 @@ function [x_true,alpha_real, val] = test_real(d,k,p_real,P,B,w)
         alpha_real=[alpha_real pi_approx']; %stack stationary distribution to the right side of all stat. distributions
     end
     
-    xrange=dec2bin(0:1:2^d-1)-'0';   
-    
+    xrange=x_feasible;
     val=10^6;
     for row=1:length(xrange(:,1))
         x=xrange(row,:)';

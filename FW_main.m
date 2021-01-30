@@ -32,13 +32,13 @@ function cost=FW_main(k,x_cur,epsilon,r,iter,q_all,alpha_all)
             g=trace(dir*c);
         
             if g<epsilon
-                % disp(g);
+                fprintf('%d gap',g);
                 nu_best=nu; %disp(nu_best);
                 break
             end
             buf_lin_search=-10^9;
             gammat=-1;
-            for gammax = 0:0.1:1
+            for gammax = 0:0.05:1
                 nu_mat=nu+gammax*dir;
                 nu_mat=nu_mat./sum(nu_mat,2);
                 f_lin_search = Psi(x_cur, nu_mat);
