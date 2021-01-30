@@ -20,14 +20,13 @@ d=10; % how many brands
 T=5; % length of each xi^(i)/ sample size
 n_exper = 1; % number of independent experiments
 
-P =  rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
-B = 60*rand(k,1);
-w=10*rand(1,k); % weight of each customer segment
+P =  0.16*rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
+B = 2*rand(k,1);
+w=randi([1 10],1,k); % weight of each customer segment
 % w=w./sum(w);
 
-% xrange=dec2bin(0:1:2^d-1)-'0'; % decision space
-% xrange=xrange*2;
-xrange=randi([0 3],300,d);
+xrange=dec2bin(0:1:2^d-1)-'0'; % decision space
+% xrange=randi([0 5],300,d); % a more general discrete setting
 x_feasible=[];
 % keeping only the feasible decisions
 for row=1:length(xrange(:,1)) % iterate over all possibilities
@@ -70,6 +69,7 @@ iid_perf_upper=zeros(1,N_r);
 obj_tran_kernel = matfile('transition_dynamics.mat','Writable',true);
 p_real=obj_tran_kernel.P;
 [true_x,alpha_real,cost_real] = test_real(d,k,p_real,P,B,w,x_feasible);
+fprintf('true cost %d \n',cost_real);
 
 for i=1:N_r % for each prescribed radius
     r=r_range(i);
@@ -113,4 +113,4 @@ for i=1:N_r % for each prescribed radius
     markov_perf_upper(i)=markov_perf(i)+2*std(cost_out); % 90% confidence bound
 end
 iid_plot
-save('simul7.mat')
+save('simul8.mat')
