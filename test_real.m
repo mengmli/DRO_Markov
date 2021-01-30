@@ -12,11 +12,8 @@ function [x_true,alpha_real, val] = test_real(d,k,p_real,P,B,w,x_feasible)
     val=10^6;
     for row=1:length(xrange(:,1))
         x=xrange(row,:)';
-        if P*x<=B
-            val1 = -x'*alpha_real*w';
-        else 
-            val1 = 10^6;
-        end
+        val1 = -x'*alpha_real*w';
+        
         if val1<val
             val=val1;
             x_true=x;

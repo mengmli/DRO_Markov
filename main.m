@@ -21,7 +21,7 @@ T=30; % length of each xi^(i)/ sample size
 n_exper = 1; % number of independent experiments
 
 P =  rand(k,d); %pricing information for each brand and price sensitivity of each respective customer group
-B = 10*rand(k,1);
+B = 100*rand(k,1);
 w=10*rand(1,k); % weight of each customer segment
 % w=w./sum(w);
 
