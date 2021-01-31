@@ -28,9 +28,9 @@ function s = linear_sub(alpha0,r,c,m,q)
     opts = optimoptions('fmincon','Display','off');
     options = optimoptions(opts,'MaxFunctionEvaluations', max(1000,round(10^3*r)));
     options = optimoptions(options,'MaxIterations',  max(1000,round(10^3*r)));
-    options = optimoptions(options,'OptimalityTolerance', 10^(-4));
-    options = optimoptions(options,'FunctionTolerance', 10^(-4));
-    options = optimoptions(options,'StepTolerance', 10^(-4));
+    options = optimoptions(options,'OptimalityTolerance', 10^(-3));
+    options = optimoptions(options,'FunctionTolerance', 10^(-3));
+    options = optimoptions(options,'StepTolerance', 10^(-3));
     eta_star = fmincon(f,eta_0,[],[],[],[],cbar,[],[],options);
     
     % disp(eta_star-cbar);

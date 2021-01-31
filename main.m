@@ -90,12 +90,12 @@ for i=1:N_r % for each prescribed radius
             x_cur=x_feasible(row,:)'; %fix one decision
             % apply FW algorithm to get the corresponding prediction
             iter=max(100,1/r); % maximum iteration for FW alg
-            epsilon=min(0.001,r); % error tolerance for FW gap
+            epsilon=min(0.01,r); % error tolerance for FW gap
             cost_fin1 = w*FW_main(k,a,x_cur,epsilon,r,iter,q,alpha0); %return the best minimax prediction given a decision x_cur
             
             if cost_fin1<cost_fin(n) %compare if it is the best decision so far
                 cost_fin(n)=cost_fin1; 
-                % disp('current min x');disp(x_cur');fprintf('prediction %d \n',cost_fin1);
+                disp('current min x');disp(x_cur');fprintf('prediction %d \n',cost_fin1);
                 x=x_cur;
             end
         end
