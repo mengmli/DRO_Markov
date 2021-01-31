@@ -1,7 +1,7 @@
 rng(2);
 % parameter setting
 
-k=7; % how many customer segements: i.e., how many different markov chain dynamics
+k=3; % how many customer segements: i.e., how many different markov chain dynamics
 d=10; % how many brands
 T=10; % length of each xi^(i)/ sample size
 n_exper = 10; % number of independent experiments
