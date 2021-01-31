@@ -17,8 +17,8 @@ warning('off');
 
 k=3; % how many customer segements: i.e., how many different markov chain dynamics
 d=10; % how many brands
-T=1000; % length of each xi^(i)/ sample size
-n_exper = 3; % number of independent experiments
+T=500; % length of each xi^(i)/ sample size
+n_exper = 100; % number of independent experiments
 
 P =  randi([8 25],5,d); %pricing information for each brand and mode of cost
 B = randi([70 100],5,1); % budget in each cost dimension
@@ -53,7 +53,7 @@ cost_fin_iid=zeros(1,n_exper);
 cost_out_iid=zeros(1,n_exper);
 
 
-r_range=logspace(-4,1,6); %range r
+r_range=logspace(-4,1,10); %range r
 [~,N_r]=size(r_range);
 markov_perf=zeros(1,N_r);
 markov_perf_lower=zeros(1,N_r);
@@ -115,4 +115,3 @@ for i=1:N_r % for each prescribed radius
     markov_perf_upper(i)=markov_perf(i)+2*std(cost_out); % 90% confidence bound
 end
 iid_plot
-save('simul11.mat')

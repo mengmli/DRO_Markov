@@ -3,8 +3,8 @@ rng(2);
 
 k=3; % how many customer segements: i.e., how many different markov chain dynamics
 d=10; % how many brands
-T=1000; % length of each xi^(i)/ sample size
-n_exper = 10; % number of independent experiments
+T=500; % length of each xi^(i)/ sample size
+n_exper = 100; % number of independent experiments
 
 P=rand(d,d,k); % k  transition matrix, each of dimension d*d
 for i=1:k
